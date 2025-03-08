@@ -1,8 +1,15 @@
-package dto;
+package com.example.springBack.Application.dto;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 
+@Entity
 public class Message {
+    @GeneratedValue
+    @Id
     int id;
     String title;
     String text;

@@ -1,7 +1,13 @@
-package dto;
-import java.time.LocalDate;
+package com.example.springBack.Application.dto;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 
+import java.time.LocalDate;
+@Entity
 public class Person {
+    @Id
+    @GeneratedValue
     private int id;
     private String firstname;
     private String surname;
