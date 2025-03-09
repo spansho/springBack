@@ -1,11 +1,14 @@
 package com.example.springBack.Application.Controller;
 import com.example.springBack.Application.Repository.PersonRepository;
+import com.example.springBack.Application.dto.Message;
 import com.example.springBack.Application.dto.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +24,15 @@ public class PersonController {
     public ResponseEntity<Person> setPerson(@RequestBody Person person) {
         PersonRepository.save(person);
         return new ResponseEntity<>(person, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/person/{id}/message")
+    public Person addMessage(@PathVariable int id, @RequestBody Message message) {
+        Person person = PersonRepository.findById(id).get();
+        message.setPerson(person);
+        message.setBirthday(LocalDate.from(LocalDateTime.now()));
+        person.addMessage(message);
+        return PersonRepository.save(person);
     }
 
     @PostMapping("/persoN")
