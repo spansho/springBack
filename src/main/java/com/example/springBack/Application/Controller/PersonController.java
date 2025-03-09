@@ -1,5 +1,6 @@
 package com.example.springBack.Application.Controller;
 import com.example.springBack.Application.Repository.PersonRepository;
+import com.example.springBack.Application.Service.PersonService;
 import com.example.springBack.Application.dto.Message;
 import com.example.springBack.Application.dto.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,54 +16,74 @@ import java.util.Optional;
 public class PersonController {
 
     @Autowired
-    private PersonRepository PersonRepository;
-    public PersonController() {
-        // Конструктор по умолчанию
+    private PersonService service;
+    public PersonController(PersonService service) {
+       this.service=service;
     }
 
     @PostMapping("/person")
     public ResponseEntity<Person> setPerson(@RequestBody Person person) {
-        PersonRepository.save(person);
-        return new ResponseEntity<>(person, HttpStatus.CREATED);
+        return new ResponseEntity<>( service.addPersonWithResponse(person),HttpStatus.OK);
     }
 
     @PostMapping("/person/{id}/message")
-    public Person addMessage(@PathVariable int id, @RequestBody Message message) {
-        Person person = PersonRepository.findById(id).get();
-        message.setPerson(person);
-        message.setBirthday(LocalDate.from(LocalDateTime.now()));
-        person.addMessage(message);
-        return PersonRepository.save(person);
+    public ResponseEntity<Optional<Message>> addMessage(@PathVariable int id, @RequestBody Message message) {
+        var messagez = service.addMeesageToPerson(id,message);
+        if(messagez.isPresent())
+        return new ResponseEntity<>(messagez,HttpStatus.OK);
+        return new ResponseEntity<>(messagez,HttpStatus.BAD_REQUEST);
+
     }
 
     @PostMapping("/persoN")
     public Person addPerson(@RequestBody Person person) {
-        PersonRepository.save(person);
-        return person;
+       return service.addPerson(person);
     }
 
     @GetMapping("/persons")
-    public Iterable<Person> getPersons() {
-        return PersonRepository.findAll();
+    public ResponseEntity<Iterable<Person>> getPersons() {
+        if(service.getPersons().iterator().hasNext())
+        return new ResponseEntity<>( service.getPersons(),HttpStatus.OK);
+
+        return new ResponseEntity<>( service.getPersons(),HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/person/{id}")
+    public ResponseEntity<Iterable<Message>> getPersonMessages(@PathVariable int id)
+    {
+         return new ResponseEntity<Iterable<Message>>(service.showUserMessages(id),HttpStatus.OK);
+    }
+
+
+    @GetMapping("person/{idPers}/message/{idMess}")
+    public ResponseEntity<Optional<Message>> getPesonIdMessageId(@PathVariable int idPers,@PathVariable int idMess)
+    {
+        var message=service.showUserMessageById_s(idPers,idMess);
+        if(message.isPresent())
+        return new ResponseEntity<>(message,HttpStatus.OK);
+
+        return new ResponseEntity<>(message,HttpStatus.NO_CONTENT);
     }
 
 
     @GetMapping("/person/{id}")
     public Optional<Person> findPersonById(@PathVariable int id) {
-        return PersonRepository.findById(id);
+        return service.findPersonById(id);
     }
 
 
 
     @PutMapping("/person/{id}")
-    public ResponseEntity<Person> updatePerson(@PathVariable int id, @RequestBody Person person) {
-        HttpStatus status = PersonRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-        return new ResponseEntity(PersonRepository.save(person), status);
+    public ResponseEntity<Optional<Person>> updatePerson(@PathVariable int id, @RequestBody Person person) {
+        var personz=service.updatePerson(id,person);
+        if(personz.isPresent())
+        return new ResponseEntity<>(service.updatePerson(id,person),HttpStatus.OK);
+        return new ResponseEntity<>(service.updatePerson(id,person),HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/person/{id}")
     public void deletePerson(@PathVariable int id) {
-        PersonRepository.deleteById(id);
+       service.deletePerson(id);
     }
 }
 
