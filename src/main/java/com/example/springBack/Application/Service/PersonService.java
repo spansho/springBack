@@ -28,12 +28,13 @@ public class PersonService {
 
     public Optional<Message> addMeesageToPerson(int personId, Message message) {
         Person person = repository.findById(personId).get();
-        Optional<Message> optional=Optional.of(null);
+        Optional<Message> optional=Optional.ofNullable(null);
         if (repository.existsById(personId)) {
             message.setPerson(person);
             message.setBirthday(LocalDate.from(LocalDateTime.now()));
             person.addMessage(message);
             optional=Optional.of(message);
+            repository.save(person);
             return optional;
         }
 

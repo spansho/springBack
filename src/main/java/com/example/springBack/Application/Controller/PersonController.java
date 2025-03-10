@@ -29,8 +29,7 @@ public class PersonController {
     @PostMapping("/person/{id}/message")
     public ResponseEntity<Optional<Message>> addMessage(@PathVariable int id, @RequestBody Message message) {
         var messagez = service.addMeesageToPerson(id,message);
-        if(messagez.isPresent())
-        return new ResponseEntity<>(messagez,HttpStatus.OK);
+        if(messagez.isPresent()) return new ResponseEntity<>(messagez,HttpStatus.OK);
         return new ResponseEntity<>(messagez,HttpStatus.BAD_REQUEST);
 
     }
@@ -42,16 +41,17 @@ public class PersonController {
 
     @GetMapping("/persons")
     public ResponseEntity<Iterable<Person>> getPersons() {
-        if(service.getPersons().iterator().hasNext())
-        return new ResponseEntity<>( service.getPersons(),HttpStatus.OK);
+        if(service.getPersons().iterator().hasNext()) return new ResponseEntity<>( service.getPersons(),HttpStatus.OK);
 
-        return new ResponseEntity<>( service.getPersons(),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>( service.getPersons(),HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/person/{id}")
+    @GetMapping("/person/{id}/message")
     public ResponseEntity<Iterable<Message>> getPersonMessages(@PathVariable int id)
     {
-         return new ResponseEntity<Iterable<Message>>(service.showUserMessages(id),HttpStatus.OK);
+          var messages= service.showUserMessages(id);
+          if(!messages.isEmpty()) return new ResponseEntity<Iterable<Message>>(service.showUserMessages(id),HttpStatus.OK);
+          return new ResponseEntity<Iterable<Message>>(service.showUserMessages(id),HttpStatus.NOT_FOUND);
     }
 
 
@@ -59,8 +59,7 @@ public class PersonController {
     public ResponseEntity<Optional<Message>> getPesonIdMessageId(@PathVariable int idPers,@PathVariable int idMess)
     {
         var message=service.showUserMessageById_s(idPers,idMess);
-        if(message.isPresent())
-        return new ResponseEntity<>(message,HttpStatus.OK);
+        if(message.isPresent()) return new ResponseEntity<>(message,HttpStatus.OK);
 
         return new ResponseEntity<>(message,HttpStatus.NO_CONTENT);
     }
@@ -76,8 +75,7 @@ public class PersonController {
     @PutMapping("/person/{id}")
     public ResponseEntity<Optional<Person>> updatePerson(@PathVariable int id, @RequestBody Person person) {
         var personz=service.updatePerson(id,person);
-        if(personz.isPresent())
-        return new ResponseEntity<>(service.updatePerson(id,person),HttpStatus.OK);
+        if(personz.isPresent()) return new ResponseEntity<>(service.updatePerson(id,person),HttpStatus.OK);
         return new ResponseEntity<>(service.updatePerson(id,person),HttpStatus.BAD_REQUEST);
     }
 

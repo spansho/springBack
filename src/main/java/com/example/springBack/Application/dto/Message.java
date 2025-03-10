@@ -20,6 +20,8 @@ public class Message {
     @JsonIgnore
     private Person person;
 
+    public Message()
+    {}
     public Message(int id,String title, String text, LocalDate time) {
         this.id = id;
         this.title = title;
