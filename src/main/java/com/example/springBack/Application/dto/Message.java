@@ -15,7 +15,10 @@ public class Message {
     String text;
     LocalDate time;
 
-    public Message(int id,String title, String text, LocalDate time) {
+    public Message() {
+    }
+
+    public Message(int id, String title, String text, LocalDate time) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -42,7 +45,7 @@ public class Message {
         return text;
     }
 
-    public void setSurname(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -52,7 +55,7 @@ public class Message {
         return time;
     }
 
-    public void setBirthday(LocalDate time) {
+    public void setTime(LocalDate time) {
         this.time = time;
     }
 }

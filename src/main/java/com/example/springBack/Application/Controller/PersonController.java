@@ -44,8 +44,13 @@ public class PersonController {
 
     @PutMapping("/person/{id}")
     public ResponseEntity<Person> updatePerson(@PathVariable int id, @RequestBody Person person) {
+        var dbPerson=PersonRepository.findById(id);
         HttpStatus status = PersonRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-        return new ResponseEntity(PersonRepository.save(person), status);
+        dbPerson.get().setBirthday(person.getBirthday());
+        dbPerson.get().setSurname(person.getSurname());
+        dbPerson.get().setFirstname(person.getFirstname());
+        dbPerson.get().setFirstname(person.getLastname());
+        return new ResponseEntity(PersonRepository.save(dbPerson.get()), status);
     }
 
     @DeleteMapping("/person/{id}")
