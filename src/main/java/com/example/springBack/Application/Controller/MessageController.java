@@ -39,10 +39,17 @@ public class MessageController {
         return new ResponseEntity<Message>(message, HttpStatus.CREATED);
     }
 
+
+
+
     @PutMapping("/message/{id}")
     public ResponseEntity<Message> updatePerson(@PathVariable int id, @RequestBody Message message) {
+        var dbMessage=MessageRepository.findById(id);
         HttpStatus status = MessageRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-        return new ResponseEntity(MessageRepository.save(message), status);
+        dbMessage.get().setTime(message.getTime());
+        dbMessage.get().setTitle(message.getTitle());
+        dbMessage.get().setText(message.getText());
+        return new ResponseEntity(MessageRepository.save(dbMessage.get()), status);
     }
 
     @DeleteMapping("/message/{id}")

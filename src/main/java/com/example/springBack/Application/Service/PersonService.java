@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +33,7 @@ public class PersonService {
         Optional<Message> optional=Optional.ofNullable(null);
         if (repository.existsById(personId)) {
             message.setPerson(person);
-            message.setBirthday(LocalDate.from(LocalDateTime.now()));
+            message.setTime(LocalDate.from(LocalDateTime.now()));
             person.addMessage(message);
             optional=Optional.of(message);
             repository.save(person);
@@ -92,12 +94,21 @@ public class PersonService {
         return repository.findById(id);
     }
 
+
+
+
+
     public Optional<Person> updatePerson( int id, Person person) {
-        var personz =findPersonById(id);
-        if(personz.isPresent())
+        var dbPerson=repository.findById(id);
+        HttpStatus status = repository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
+        dbPerson.get().setBirthday(person.getBirthday());
+        dbPerson.get().setSurname(person.getSurname());
+        dbPerson.get().setFirstname(person.getFirstname());
+        dbPerson.get().setFirstname(person.getLastname());
+        if(dbPerson.isPresent())
         {
-            repository.save(person);
-            return personz;
+            repository.save(dbPerson.get());
+            return dbPerson;
         }
 
         return Optional.of(null);

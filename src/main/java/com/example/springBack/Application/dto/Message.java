@@ -49,18 +49,18 @@ public class Message {
         return text;
     }
 
-    public void setSurname(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
 
 
-    public LocalDate getBirthday() {
+    public LocalDate getTime() {
         return time;
     }
 
 
-    public void setBirthday(LocalDate time) {
+    public void setTime(LocalDate time) {
         this.time = time;
     }
 
