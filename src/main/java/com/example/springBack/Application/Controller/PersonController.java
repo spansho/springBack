@@ -86,5 +86,11 @@ public class PersonController {
     public void deletePerson(@PathVariable int id) {
        service.deletePerson(id);
     }
+
+    @DeleteMapping ("/person/{id}/message")
+    public void deletePersonMessages(@PathVariable int id)
+    {
+        service.deletePersonMessages(id);
+    }
 }
 

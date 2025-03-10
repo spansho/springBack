@@ -117,4 +117,11 @@ public class PersonService {
     public void deletePerson(@PathVariable int id) {
         repository.deleteById(id);
     }
+
+    public void deletePersonMessages(@PathVariable int id)
+    {
+        var personFromDb=repository.findById(id);
+        personFromDb.get().setMessages(new ArrayList<>());
+        repository.save(personFromDb.get());
+    }
 }

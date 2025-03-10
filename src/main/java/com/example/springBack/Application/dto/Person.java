@@ -2,6 +2,7 @@ package com.example.springBack.Application.dto;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,10 @@ public class Person {
         messages.add(message);
     }
 
+    public void setMessages(ArrayList<Message> messages)
+    {
+        this.messages=messages;
+    }
     public List<Message> getMessages() {
         return messages;
     }
