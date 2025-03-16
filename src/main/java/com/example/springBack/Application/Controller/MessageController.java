@@ -1,5 +1,5 @@
-package Controller;
-import dto.Message;
+package com.example.springBack.Application.Controller;
+import com.example.springBack.Application.dto.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class MessageController {
                 : new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/message/{id}")
     public void deleteMessage(@PathVariable int id) {
         messageList.removeIf(p -> p.getId() == id);
     }

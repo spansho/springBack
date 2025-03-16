@@ -1,5 +1,5 @@
-package Controller;
-import dto.Person;
+package com.example.springBack.Application.Controller;
+import com.example.springBack.Application.dto.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package dto;
+package com.example.springBack.Application.dto;
 import java.time.LocalDate;
 
 public class Person {
