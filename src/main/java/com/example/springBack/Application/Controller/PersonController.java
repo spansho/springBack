@@ -29,7 +29,7 @@ public class PersonController {
         return person;
     }
 
-    @GetMapping("/persons")
+    @GetMapping("/person")
     public Iterable<Person> getPersons() {
         return PersonRepository.findAll();
     }
@@ -49,7 +49,7 @@ public class PersonController {
         dbPerson.get().setBirthday(person.getBirthday());
         dbPerson.get().setSurname(person.getSurname());
         dbPerson.get().setFirstname(person.getFirstname());
-        dbPerson.get().setFirstname(person.getLastname());
+        dbPerson.get().setLastname(person.getLastname());
         return new ResponseEntity(PersonRepository.save(dbPerson.get()), status);
     }
 

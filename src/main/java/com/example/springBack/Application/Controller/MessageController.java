@@ -49,7 +49,7 @@ public class MessageController {
         return new ResponseEntity(MessageRepository.save(dbMessage.get()), status);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/message/{id}")
     public void deleteMessage(@PathVariable int id) {
         MessageRepository.deleteById(id);
     }
