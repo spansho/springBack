@@ -104,7 +104,7 @@ public class PersonService {
         dbPerson.get().setBirthday(person.getBirthday());
         dbPerson.get().setSurname(person.getSurname());
         dbPerson.get().setFirstname(person.getFirstname());
-        dbPerson.get().setFirstname(person.getLastname());
+        dbPerson.get().setLastname(person.getLastname());
         if(dbPerson.isPresent())
         {
             repository.save(dbPerson.get());

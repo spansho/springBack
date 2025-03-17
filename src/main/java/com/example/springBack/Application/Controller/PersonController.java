@@ -39,7 +39,7 @@ public class PersonController {
        return service.addPerson(person);
     }
 
-    @GetMapping("/persons")
+    @GetMapping("/person")
     public ResponseEntity<Iterable<Person>> getPersons() {
         if(service.getPersons().iterator().hasNext()) return new ResponseEntity<>( service.getPersons(),HttpStatus.OK);
 
@@ -69,10 +69,6 @@ public class PersonController {
     public Optional<Person> findPersonById(@PathVariable int id) {
         return service.findPersonById(id);
     }
-
-
-
-
 
 
     @PutMapping("/person/{id}")
